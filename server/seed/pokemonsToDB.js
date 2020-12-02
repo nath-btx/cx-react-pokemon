@@ -74,9 +74,9 @@ knex.schema.dropTableIfExists('pokemons').then(function(){
 
 
 .then(() => {
-    for(let i = 0; i < file.length - 1; i++){
+    for(let i = 0; i < file.length; i++){
         knex('pokemons').insert({id_pokemon : file[i].numéro, nom : file[i].nom, nomen : file[i].nomen }).then(() => {
-            console.log('worked')
+            console.log(`${file[i].nom} added`)
         })
     }
 })
