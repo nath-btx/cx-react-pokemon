@@ -1,5 +1,5 @@
 const fs = require('fs')
-const file = require('../pokedex.json')
+const file = require('../../pokedex.json')
 const knex = require('knex')({
     client :'pg',
 	connection: {
@@ -13,7 +13,7 @@ const knex = require('knex')({
 
 function getKeys (){
     let keys = []
-    let data = fs.readFileSync('../pokedex.json','UTF-8')
+    let data = fs.readFileSync('../../pokedex.json','UTF-8')
     let isLineAttack = false
     const lines = data.split(/\r?\n/)
     lines.forEach((line) => {

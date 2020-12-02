@@ -7,7 +7,7 @@ const knex = require('knex')({
         database: 'pokemon',
     }
 })
-const file = require('./pokedex.json')
+const file = require('../../pokedex.json')
 let attacks =  []
 knex.schema.dropTableIfExists('attaques').then(function(){
     return knex.schema.createTable('attaques',function(t) {
