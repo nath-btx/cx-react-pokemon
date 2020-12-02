@@ -2,7 +2,7 @@
   "name": "cx-react-pokemon",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "cx-react-pokemon",
   "dependencies": {
     "express": "^4.17.1",
     "knex": "^0.21.12"
