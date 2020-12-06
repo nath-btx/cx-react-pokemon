@@ -1,14 +1,28 @@
 import './App.css';
 import PokemonCard from './casePokemon.js';
 import PokedexImg from './pokedexImg.js';
+import SearchPokemon from './searchPokemon.js';
 import Title from './Title.js'
+const knex = require('knex')({
+  client :'pg',
+connection: {
+  host : '127.0.0.1',
+  user: 'postgres',
+  password: 'admin',
+      database: 'pokemon',
+  }
+})
 
 
+knex('pokemons').select('numéro').then(function(data){
+  return data
+})
 
 function App() {  
   return (
     <div className="App">
           <PokedexImg />
+          <SearchPokemon />
           <PokemonCard 
             name = {"Bulbizarre"}
             id = {"#001"}
