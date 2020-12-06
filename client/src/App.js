@@ -1,36 +1,40 @@
-import React, {Component} from "react"
-import './App.css'
+import './App.css';
+import PokemonCard from './casePokemon.js';
+const knex = require('knex')({
+  client :'pg',
+connection: {
+  host : '127.0.0.1',
+  user: 'postgres',
+  password: 'trombone',
+  database: 'pokemon',
+  }
+})
 
-class App extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            json: null
+
+function listPokemon() {
+  knex('pokemons').select('numero', 'nom').then(function (data) {
+      return data
+  })
+  }
+  
+  let data = listPokemon();
+
+function App() {  
+  return (
+    <div className="App">
+        <p> Lorem Ipsum </p>
+        {
+        for (let i = 0; i < data.length; i++) {
+          nomPokemon = data[i].nom
         }
-    }
-
-async componentDidMount() {
-    const response = await fetch('http://localhost:4242/pokemons')
-    const data = await response.json()
-
-    setTimeout(() => {
-        this.setState({pokemon: data.name})
-    }, 5000)
+        <PokemonCard 
+        name = {data[1].numéro}
+        id =  {data[1].numéro}
+        />
+    </div>
+  );
 }
 
-render() {
-    return (
-        <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt='logo' />
-                <p> 
-                    Hello to Pokedex
-                </p>
-                <span style = {{color: "yellow"}}> JSON : {this.state.json || 'No Data'}</span>
-            </header>
-        </div>
-    )
-}
-}
 
-export default App
+
+export default App;

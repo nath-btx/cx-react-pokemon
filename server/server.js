@@ -2,30 +2,13 @@ const express = require('express')
 const cors = require('cors')
 const path = require('path')
 const knex = require('knex')
+const app = express();
 
 const port = process.env.PORT || 5454;
 
-console.log("dirname = " + __dirname);
-
-
-const app = express();
 app.use(cors())
+app.use(express.static('../client_old'))
 
-app.use(express.static(__dirname));
-
-
-app.get('/', (req, res) => {
-    // res.send("<h1>coucou<h1>")
-    // res.sendFile('../client/public/index.html', { root: __dirname});
-    res.sendFile(path.resolve('../client/public/index.html'), (err) => {
-        if (err) console.log("Erreur")
-    });
-
-
-    // res.sendFile(path.join("C:/Users/Nathan/git/cx-react-pokemon" + "/client/public/index.html"),(err) => {
-    //     if (err) console.log('Erreur')
-    // })
-});
 
 // app.get('/pokemons', (req, res) => {
 //     res.write('Route pokemons')
@@ -38,4 +21,18 @@ app.get('/', (req, res) => {
 
 app.listen(port, () => {
     console.log('Server app listening on port ' + port)
+})
+
+app.get('/', function(req, res){
+    res.sendFile(path.resolve('../client_old/public/index.html'), (err) => {
+        if (err) console.log("Erreur")
+    });
+})
+
+app.use(function(req, res, next){
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type')
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE')
+    res.setHeader('Access-Control-Allow-Credentials', true)
+    next()
 })
