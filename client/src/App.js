@@ -1,61 +1,78 @@
+import React, {Component} from 'react'
+import { HashRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import './App.css';
-import PokemonCard from './casePokemon.js';
-import PokedexImg from './pokedexImg.js';
-import SearchPokemon from './searchPokemon.js';
-import Title from './Title.js'
-const knex = require('knex')({
-  client :'pg',
-connection: {
-  host : '127.0.0.1',
-  user: 'postgres',
-  password: 'admin',
-      database: 'pokemon',
+import PokemonCard from './casePokemon';
+import OnePokemon from './OnePokemon'
+
+class App extends Component {
+
+  render() {
+      return (
+        <Router>
+          <Switch>
+            <Route exact path = "/"component = {ManyPokemons}></Route>
+            <Route component={OnePokemon}></Route>
+          </Switch>
+        </Router>
+      )
   }
-})
-
-
-knex('pokemons').select('numéro').then(function(data){
-  return data
-})
-
-function App() {  
-  return (
-    <div className="App">
-          <PokedexImg />
-          <SearchPokemon />
-          <PokemonCard 
-            name = {"Bulbizarre"}
-            id = {"#001"}
-            imgUrl = {"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/001.png"}
-          />
-          <PokemonCard 
-            name = {"Herbizarre"}
-            id = {"#002"}
-            imgUrl = {"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/002.png"}
-          />
-          <PokemonCard 
-            name = {"Florizarre"}
-            id = {"#003"}
-            imgUrl = {"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/003.png"}
-          />
-          <PokemonCard 
-            name = {"Salamèche"}
-            id = {"#004"}
-            imgUrl = {"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/004.png"}
-          />
-          <PokemonCard 
-            name = {"Reptincel"}
-            id = {"#005"}
-            imgUrl = {"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/005.png"}
-          />
-          <PokemonCard 
-            name = {"Dracaufeu"}
-            id = {"#006"}
-            imgUrl = {"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/006.png"}
-          />
-      
-    </div>
-  );
 }
 
+class ManyPokemons extends React.Component{
+  
+  constructor(props) {
+    super(props)
+    this.state = {
+      lien: [],
+      noms:[],
+      numéros:[],
+      link:[],
+    }
+  }
+  getAllPokemons() {
+    fetch('http://localhost:4242').then(response => {
+      response.json().then(data => {
+        Object.keys(data).forEach(pokemon => {
+          this.setState({
+            lien : [...this.state.lien, "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/"+data[pokemon].numéro+".png"],
+            noms : [...this.state.noms, data[pokemon].nom],
+            numéros: [...this.state.numéros, data[pokemon].numéro],
+            link :[...this.state.link, "/pokemons/" + data[pokemon].numéro]
+          })
+        });
+      })
+    })
+  }
+  componentDidMount() {
+    this.getAllPokemons()
+  }
+
+  render(){
+    return( 
+      <div className="App">
+          <Router>
+            <Link to='/'>
+          <img src = "\pokedex.png" alt ="Title"/>
+            </Link>
+          </Router>
+          <header className="App-header">
+            {
+            this.state.lien.map((pokemon, index) => {
+              return (
+                    <Link to={this.state.link[index]}>
+                      <PokemonCard
+                        name = {this.state.noms[index]}
+                        id = {this.state.numéros[index]}
+                        imgUrl = {pokemon} 
+                      />
+                    </Link>
+              )
+            })
+            }
+          </header>
+        </div>
+    )
+  }
+}
 export default App;
+

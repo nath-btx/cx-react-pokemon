@@ -4,11 +4,15 @@ import "./casePokemon.css"
 
 function PokemonCard(props) {
     return (
-        <div className="pokemon_card" onclick = "style.color='red'">
-            <img src={props.imgUrl} alt = {props.name}/>
-            <p>{props.id}</p>
+            
+        <div className="pokemon_card" >
+            
+            <img src={props.imgUrl} alt = {props.name}/>                
+            <p>#{props.id}</p>
             <h3>{props.name}</h3>
         </div>
+
     )
 }
+
 export default PokemonCard
