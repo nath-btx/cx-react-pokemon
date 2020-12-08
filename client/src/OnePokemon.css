@@ -1,0 +1,39 @@
+#attributs{
+    color:white;
+    display:flex;
+    flex-direction:column;
+    flex-wrap: nowrap; 
+    justify-content: space-between; /* switched from default (flex-start, see below) */
+    font-size:2em;
+}
+tr:nth-child(2n-1){
+    background-color:#273746;
+}
+tr:nth-child(2n){
+    
+    background-color: #686868;
+}
+
+table{
+    border-collapse:collapse;
+    border:0;
+    padding-right:10px;
+    text-align:left;
+    height: auto;
+    width: 100%;
+}
+.attaques{
+    font-size:2em;
+}
+td:nth-child(4n+2){
+    border-right:50px solid #273746;
+}
+
+th{
+    text-align:left;
+}
+
+dl{
+    display: flex;
+    text-align: left;
+}
